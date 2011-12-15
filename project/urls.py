@@ -26,16 +26,16 @@ urlpatterns += patterns('django.contrib.auth.views',
 
 # Applications
 urlpatterns += patterns('',
-#    (r'^$', 'dashboard.views.dashboard'),
-    (r'^$', include(admin.site.urls)),
+    (r'^$', 'dashboard.views.dashboard'),
+#    (r'^$', include(admin.site.urls)),
 #    (r'^learning/', include('learning.urls')),
 #    (r'^testing/', include('testing.urls')),
 #    (r'^coaching/', include('coaching.urls')),
 #    (r'^staff/coaching/utilisateur/create_logins/',
 #        'coaching.views.create_logins'),
     (r'^staff/', include(admin.site.urls)),
-#    (r'^dashboard/$', 'dashboard.views.dashboard'),
-#    (r'^profile/$', 'coaching.views.profile'),
+    (r'^dashboard/$', 'dashboard.views.dashboard'),
+    (r'^profile/$', 'coaching.views.profile'),
 )
 
 # Développement

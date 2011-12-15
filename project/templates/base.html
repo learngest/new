@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+<!-- vim: set fileencoding=utf8: -->
+{% load i18n %}
+<head>
+	<meta charset="utf-8" />
+	<title>{% block title %}{% trans "Master e-learning" %}{% endblock %}</title>
+	{% block style %}
+	{% if client.style %}
+	<link rel="stylesheet" href="/static/media/css/{{ client.style }}" type="text/css" media="screen" title="Normal" />
+	<link rel="stylesheet" href="/static/media/css/print.css" type="text/css" media="print" />
+	{% else %}
+	<link rel="stylesheet" href="/static/media/css/learngest.css" type="text/css" media="screen" title="Normal" />
+	<link rel="stylesheet" href="/static/media/css/print.css" type="text/css" media="print" />
+	{% endif %}
+	{% endblock style %}
+	<!--[if IE]>
+		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	{% block extrastyle %}{% endblock extrastyle %}
+	{% block extrahead %}{% endblock extrahead %}
+</head>
+
+<body>
+
+{% block header_toolbar %}<div id="header-toolbar-container">
+	<div id="header-toolbar">
+		{% block user_infos %}{% trans "Logged out" %}{% endblock %}
+	</div>
+</div>{% endblock header_toolbar %}
+
+{% block header %}<div id="header-container">
+	<div id="header">
+		<h1>Learngest</h1>
+		<p>{% if client.nom %}{{ client.nom }}{% else %}{% trans "Innovative e-learning Framework" %}{% endif %}</p>
+	</div>
+</div>{% endblock header %}
+
+{% block nav-global %}{% endblock %}
+{% block breadcrumbs %}{% endblock %}
+
+{% if messages %}
+<ul class="messagelist">{% for message in messages %}<li>{{ message }}</li>{% endfor %}</ul>
+{% endif %}
+
+{% block page %}
+<div id="content-container">
+	<div class="content">
+	{% block content_title %}{% if title %}<h1>{{ title|capfirst }}</h1>{% endif %}{% endblock %}
+	{% block content %}
+	{% endblock %}
+	</div>
+</div>
+{% endblock %}
+
+{% block footer %}<div id="footer-container">
+	<div id="footer">
+		<p>{% trans "Learngest v4 - © CFF 2009-" %}{% now "Y" %}</p>
+	</div>
+</div>{% endblock %}
+
+</body>
+</html>

@@ -49,21 +49,21 @@ class AdministrateursDuGroupeInline(admin.TabularInline):
     def get_formset(self, request, obj=None, **kwargs):
         if obj is not None:
             self.form = AdministrateurFormset
-        return super(AdministrateurDuGroupeInline,
+        return super(AdministrateursDuGroupeInline,
                 self).get_formset(request, obj, **kwargs)
 
-class GroupeForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super(GroupeForm, self).__init__(*args, **kwargs)
-        w = self.fields['administrateur'].widget
-        w.choices = [(u.pk, u.email)
-            for u in Utilisateur.objects.filter(statut__gte=ADMIN)]
-        x = self.fields['assistant'].widget
-        x.choices = [(u.pk. u.email)
-            for u in Utilisateur.objects.filter(statut_get=ASSISTANT)]
+#class GroupeForm(forms.ModelForm):
+#    def __init__(self, *args, **kwargs):
+#        super(GroupeForm, self).__init__(*args, **kwargs)
+#        w = self.fields['administrateur'].widget
+#        w.choices = [(u.pk, u.email)
+#            for u in Utilisateur.objects.filter(statut__gte=ADMIN)]
+#        x = self.fields['assistant'].widget
+#        x.choices = [(u.pk. u.email)
+#            for u in Utilisateur.objects.filter(statut_get=ASSISTANT)]
 
 class GroupeAdmin(admin.ModelAdmin):
-    form = GroupeForm
+#    form = GroupeForm
     fieldsets = (
         (None, {'fields': ('nom',)}),
         (None, {'fields': ('client',)}),
@@ -168,18 +168,19 @@ class UtilisateurAdmin(UserAdmin):
         (_('Groups'), {'fields': ('groups',)}),
     )
     list_display = ('id','full_name','derniere_cnx')
+    list_filter = ()
     list_display_links = ('id',)
-    search_fields = ('email', 'last_name',)
+    search_fields = ('email', 'last_name','first_name')
 #    actions = ['send_an_email']
-    inlines = (GroupeInline,)
+#    inlines = (GroupeInline,)
 
-    def lookup_allowed(self, lookup, *args, **kwargs):
-        """
-        see http://www.hoboes.com/Mimsy/hacks/fixing-django-124s-suspiciousoperation-filtering/
-        """
-        if lookup.startswith(('groupe',)):
-            return True
-        return super(UtilisateurAdmin, self).lookup_allowed(lookup, *args, **kwargs)
+#    def lookup_allowed(self, lookup, *args, **kwargs):
+#        """
+#        see http://www.hoboes.com/Mimsy/hacks/fixing-django-124s-suspiciousoperation-filtering/
+#        """
+#        if lookup.startswith(('groupe',)):
+#            return True
+#        return super(UtilisateurAdmin, self).lookup_allowed(lookup, *args, **kwargs)
 
     def derniere_cnx(self, obj):
         return obj.last_login.strftime('%Y-%m-%d')

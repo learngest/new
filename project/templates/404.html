@@ -1,0 +1,12 @@
+{% extends "base_site.html" %}
+{% load i18n %}
+
+{% block breadcrumbs %}<div class="breadcrumbs">
+    <a href="{% url dashboard.views.dashboard %}">{% trans "Dashboard" %}</a> &gt; {% trans "Error" %}
+</div>{% endblock %}
+
+{% block content %}
+	<p>{% trans "Ooops - It seems the page you requested doesn't exist." %}</p>
+	<p><a href="{% url dashboard.views.dashboard %}">{% trans "Back to your starting page" %}</a></p>
+{% endblock content %}
+

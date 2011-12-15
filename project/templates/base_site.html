@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block user_infos %}
+<p><a class="user" href="{% url coaching.views.profile %}">{{ user }}</a></p>
+<p><a class="logout" href="{% url email_auth.views.logout %}">{% trans "Logout" %}</a></p>
+{% endblock %}
+
+{% block nav-global %}
+<div id="nav-container">
+	<ul id="nav">
+		{% if user.is_staff %}
+		<li><a href="{% url admin:index %}"{% ifequal here 'admin' %} class="selected"{% endifequal %}>{% trans "Administration" %}</a></li>
+		{% endif %}
+		<li><a href="{% url dashboard.views.dashboard %}"{% ifequal here 'dashboard' %} class="selected"{% endifequal %}>{% trans "Dashboard" %}</a></li>
+		<li><a href="{% url coaching.views.profile %}"{% ifequal here 'profile' %}
+			class="selected"{% endifequal %}>{% trans "Profile" %}</a></li>
+	</ul>
+</div>
+{% endblock %}
+

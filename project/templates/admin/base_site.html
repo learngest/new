@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block extrastyle %}
+	<link rel="stylesheet" type="text/css" href="{% block stylesheet %}{% load adminmedia %}{% admin_media_prefix %}css/base.css{% endblock %}" />
+{% endblock extrastyle %}
+
+{% block extrahead %}
+	<script type="text/javascript">window.__admin_media_prefix__ = "{% filter escapejs %}{% admin_media_prefix %}{% endfilter %}";</script>
+{% endblock %}
+
+{% block user_infos %}
+<p><a class="user" href="{% url coaching.views.profile %}">{{ user }}</a></p>
+<p><a class="logout" href="{% url email_auth.views.logout %}">{% trans "Logout" %}</a></p>
+{% endblock %}
+
+{% block nav-global %}
+<div id="nav-container">
+	<ul id="nav">
+		{% if user.is_staff %}
+		<li><a href="{% url admin:index %}" class="selected">{% trans "Administration" %}</a></li>
+		{% endif %}
+		<li><a href="{% url dashboard.views.dashboard %}">{% trans "Dashboard" %}</a></li>
+		<li><a href="{% url coaching.views.profile %}">{% trans "Profile" %}</a></li>
+	</ul>
+</div>
+{% endblock %}
+
+{% block breadcrumbs %}<div id="breadcrumb">
+	{% if title %}{{ title }}{% endif %}
+</div>{% endblock %}
+
+{% block page %}
+<div class="content">
+<div id="content" class="{% block coltype %}colM{% endblock %}">
+	{% block pretitle %}{% endblock %}
+	{% block content_title %}{% if title %}<h1>{{ title }}</h1>{% endif %}{% endblock %}
+	{% block content %}
+	{% block object-tools %}{% endblock %}
+	{{ content }}
+	{% endblock %}
+	{% block sidebar %}{% endblock %}
+	<br class="clear" />
+</div>
+</div>
+{% endblock %}

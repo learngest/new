@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Login" %}{% endblock %}
+
+{% block breadcrumb %}{% trans "Login form" %}{% endblock breadcrumb %}
+
+{% block content %}
+
+{% if form.non_field_errors %}
+<div class="errormsg">{{ form.non_field_errors }}</div>
+{% endif %}
+
+<form method="post" id="login-form">
+	<h1>{% trans "Login Form" %}</h1>
+	<div class="form-row{% if form.errors.email %} error{% endif %}">
+		<label for="id_{{ form.email.name }}">{{ form.email.label }}</label>
+		{{ form.email }} {{ form.errors.email }}
+	</div>
+	<div class="form-row{% if form.errors.password %} error{% endif %}">
+    	<label for="id_{{ form.password.name }}">{{ form.password.label }}</label> 
+		{{ form.password }} {{ form.errors.password }}
+	</div>
+	<div class="form-row inline">
+	<label for="id_{{ form.remember.name }}">{{ form.remember.label }}</label>
+	{{ form.remember }} {{ form.errors.remember }}
+	</div>
+	<div class="submit-row">
+		<input class="btn" type="submit" value="{% trans "Log in" %}" />
+		<a href="{% url django.contrib.auth.views.password_reset %}" class="forgot">{% trans "Help, I lost my password" %}</a>
+	</div>
+</form>
+
+
+<script type="text/javascript">
+document.getElementById('id_email').focus()
+</script>
+{% endblock content %}
