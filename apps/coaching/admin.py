@@ -66,10 +66,9 @@ class GroupeAdmin(admin.ModelAdmin):
     form = GroupeForm
     fieldsets = (
         (None, {'fields': ('nom',)}),
-        (None, {'fields': ('client')}),
-        ('Permissions', {'fields': ('is_demo', 'is_open')}),
+        (None, {'fields': ('client',)}),
     )
-    list_display = ('id','client','nom','is_demo','is_open')
+    list_display = ('id','client','nom',)
     list_filter = ('client',)
     search_fields = ('nom',)
     inlines = (AdministrateursDuGroupeInline, AssistantsDuGroupeInline,)
@@ -170,10 +169,9 @@ class UtilisateurAdmin(UserAdmin):
     )
     list_display = ('id','full_name','derniere_cnx')
     list_display_links = ('id',)
-    list_filter = ('nb_cours_valides','nb_actuel')
     search_fields = ('email', 'last_name',)
 #    actions = ['send_an_email']
-    inlines = (GroupesInline,)
+    inlines = (GroupeInline,)
 
     def lookup_allowed(self, lookup, *args, **kwargs):
         """
@@ -195,12 +193,13 @@ class UtilisateurAdmin(UserAdmin):
 #    groupe_short_name.allow_tags = True
 #    groupe_short_name.admin_order_field = 'groupe'
 #
-#    def full_name(self, obj):
+    def full_name(self, obj):
 #        return "<a href=\"%s\">%s %s</a>" % (
 #                obj.get_absolute_url(), obj.last_name, obj.first_name)
-#    full_name.short_description = _('Name')
-#    full_name.admin_order_field = 'last_name'
-#    full_name.allow_tags = True
+        return "%s %s" % (obj.last_name, obj.first_name)
+    full_name.short_description = _('Name')
+    full_name.admin_order_field = 'last_name'
+    full_name.allow_tags = True
 #
 #    def cours_valides(self, obj):
 #        return "%s / %s" % (obj.nb_cours_valides, obj.groupe.cours.count())

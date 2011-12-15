@@ -56,6 +56,9 @@ class Groupe(models.Model):
     A Groupe has one or more Assistant
     The Assistant cannot change anything but can consult and download
     the marks and results of the Groupe's Utilisateur
+
+    Note: the is_open flag does not exist anymore, as this will be
+    specified for each activity
     """
 
     nom = models.CharField(max_length=60, unique=True,
