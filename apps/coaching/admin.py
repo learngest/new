@@ -8,7 +8,7 @@ from django import forms
 from django.forms import ModelForm
 from django.conf import settings
 
-from coaching.models import Client, Groupe, Utilisateur, Administrateurs, Assistants
+from coaching.models import Client, Groupe, Utilisateur, Administrateurs, Assistants, Groupes
 
 from listes import *
 
@@ -41,6 +41,9 @@ class AdministrateursFormset(ModelForm):
     utilisateur = forms.ModelChoiceField(label='Administrateur',
             queryset=Utilisateur.objects.filter(statut__gte=ADMIN))
 
+    class Meta:
+        model = Assistants
+
 class AdministrateursDuGroupeInline(admin.TabularInline):
     model = Administrateurs
     verbose_name = _('Manager')
@@ -48,22 +51,11 @@ class AdministrateursDuGroupeInline(admin.TabularInline):
 
     def get_formset(self, request, obj=None, **kwargs):
         if obj is not None:
-            self.form = AdministrateurFormset
+            self.form = AdministrateursFormset
         return super(AdministrateursDuGroupeInline,
                 self).get_formset(request, obj, **kwargs)
 
-#class GroupeForm(forms.ModelForm):
-#    def __init__(self, *args, **kwargs):
-#        super(GroupeForm, self).__init__(*args, **kwargs)
-#        w = self.fields['administrateur'].widget
-#        w.choices = [(u.pk, u.email)
-#            for u in Utilisateur.objects.filter(statut__gte=ADMIN)]
-#        x = self.fields['assistant'].widget
-#        x.choices = [(u.pk. u.email)
-#            for u in Utilisateur.objects.filter(statut_get=ASSISTANT)]
-
 class GroupeAdmin(admin.ModelAdmin):
-#    form = GroupeForm
     fieldsets = (
         (None, {'fields': ('nom',)}),
         (None, {'fields': ('client',)}),
@@ -82,8 +74,8 @@ class GroupeAdmin(admin.ModelAdmin):
 
 admin.site.register(Groupe, GroupeAdmin)
 
-class GroupeInline(admin.TabularInline):
-    model = Groupe
+class GroupesInline(admin.TabularInline):
+    model = Groupes
     verbose_name = _('Group')
 
 class UtilisateurAdminForm(ModelForm):
@@ -163,16 +155,16 @@ class UtilisateurAdmin(UserAdmin):
         (_("Identity"), 
                 {'fields': ('last_name', 'first_name')}),
         (_("Parameters"), {'fields': ('statut', 'langue', 'fermeture')}),
-        (_('Permissions'), {'fields': ('is_staff', 'is_active', 'is_superuser', 'user_permissions')}),
+        (_('Permissions'), {'fields': ('is_staff', 'is_active', 'is_superuser',)}),
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
-        (_('Groups'), {'fields': ('groups',)}),
+#        (_('Groups'), {'fields': ('groups',)}),
     )
-    list_display = ('id','full_name','derniere_cnx')
-    list_filter = ()
+    list_display = ('id','full_name','statut','derniere_cnx')
+    list_filter = ('statut',)
     list_display_links = ('id',)
     search_fields = ('email', 'last_name','first_name')
 #    actions = ['send_an_email']
-#    inlines = (GroupeInline,)
+    inlines = (GroupesInline,)
 
 #    def lookup_allowed(self, lookup, *args, **kwargs):
 #        """
