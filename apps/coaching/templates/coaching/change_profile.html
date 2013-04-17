@@ -8,19 +8,10 @@
 {% block content %}
 <form method="post">
 <fieldset>
-    <h2>{% trans "Credentials" %}</h2>
+    <h2>{{ user.get_full_name }}</h2>
     <p><label for="email">{% trans "Email" %}</label> {{ user.email }}</p>
     <p><label for="id_{{ form.new_password1.name }}">{{ form.new_password1.label }}</label> {{ form.new_password1 }}</p>
     <p><label for="id_{{ form.new_password2.name }}">{{ form.new_password2.label }}</label> {{ form.new_password2 }} {{ form.errors.new_password2 }}</p>
-</fieldset>
-<fieldset>
-    <h2>{% trans "Group" %}</h2>
-    <p><label for="groupe">{% trans "Group" %}</label> {{ user.groupe }}</p>
-</fieldset>
-<fieldset>
-    <h2>{% trans "Identity" %}</h2>
-    <p><label for="name">{% trans "Last Name" %}</label> {{ user.last_name }}</p>
-    <p><label for="firstname">{% trans "First Name" %}</label> {{ user.first_name }}</p>
 </fieldset>
 <fieldset>
     <h2>{% trans "Expiration date" %}</h2>

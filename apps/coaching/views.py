@@ -38,7 +38,7 @@ def profile(request):
     else:
         form = UtilisateurChangeForm(instance=request.user)
     return render_to_response('coaching/change_profile.html', {
-        'title': _('Change account'),
+        'title': _('Change your profile'),
         'form': form,
         'here':'profile',
     }, context_instance=RequestContext(request))
